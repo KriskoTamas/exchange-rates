@@ -1,0 +1,134 @@
+<div class="page-container">
+	<mat-card>
+
+		<mat-card-title>Currency converter</mat-card-title>
+
+		<mat-card-content>
+
+            <div class="section">
+                <p class="subtitle">Amount</p>
+
+                <mat-form-field class="example-form-field form-control" appearance="fill">
+                    <mat-label>Amount to convert</mat-label>
+                    <input matInput type="number" min="0" [(ngModel)]="convertAmount" />
+                </mat-form-field>
+            </div>
+			
+            <div class="section">
+                <table id="table-exchange">
+                    <tr>
+                        <td>
+                            <p class="subtitle">From</p>
+                        </td>
+                        <td></td>
+                        <td>
+                            <p class="subtitle">To</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <mat-form-field class="example-full-width form-control" appearance="fill">
+                                <mat-label>Convert from</mat-label>
+                                <input
+                                    type="text"
+                                    matInput
+                                    (input)="filterFrom($event)"
+                                    [matAutocomplete]="autoFrom"
+                                    [(ngModel)]="convertFrom"
+                                />
+                                <mat-autocomplete #autoFrom="matAutocomplete">
+                                    <mat-option
+                                    *ngFor="let key of objectKeys(filteredFrom)"
+                                    [value]="key"
+                                    >
+                                    <p class="mat-option-line">{{ filteredFrom[key] }}</p>
+                                    <p class="mat-option-line">
+                                        <span style="opacity: 0.7">{{ key }}</span>
+                                    </p>
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <mat-icon matSuffix>arrow_drop_down</mat-icon>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <button mat-icon-button color="primary" (click)="swap()">
+                                <mat-icon>swap_horiz</mat-icon>
+                            </button>
+                        </td>
+                        <td>
+                            <mat-form-field class="example-full-width form-control" appearance="fill">
+                                <mat-label>Convert to</mat-label>
+                                <input
+                                type="text"
+                                matInput
+                                (input)="filterTo($event)"
+                                [matAutocomplete]="autoTo"
+                                [(ngModel)]="convertTo"
+                                />
+                                <mat-autocomplete #autoTo="matAutocomplete">
+                                <mat-option *ngFor="let key of objectKeys(filteredTo)" [value]="key">
+                                    <p class="mat-option-line">{{ filteredTo[key] }}</p>
+                                    <p class="mat-option-line">
+                                    <span style="opacity: 0.7">{{ key }}</span>
+                                    </p>
+                                </mat-option>
+                                </mat-autocomplete>
+                                <mat-icon matSuffix>arrow_drop_down</mat-icon>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <p class="subtitle">Interbank rate</p>
+
+                <mat-form-field class="form-control" appearance="fill">
+                    <mat-label>Interbank rate</mat-label>
+                    <mat-select [(ngModel)]="interbankRate" value="0">
+                        <mat-option value="0">0% (None)</mat-option>
+                        <mat-option value="1">1%</mat-option>
+                        <mat-option value="2">2% (Typical ATM rate)</mat-option>
+                        <mat-option value="3">3%</mat-option>
+                        <mat-option value="4">4%</mat-option>
+                        <mat-option value="5">5%</mat-option>
+                        <mat-option value="c">Custom</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                &nbsp;
+
+                <mat-form-field class="example-form-field form-control" appearance="fill" *ngIf="interbankRate == 'c'">
+                    <mat-label>Custom amount</mat-label>
+                    <input matInput type="number" min="0" max="100" [(ngModel)]="customInterbankRate" />
+                    <span matSuffix>%</span>
+                </mat-form-field>
+            </div>
+
+            <div class="section" *ngIf="response">
+                <p class="subtitle">Result</p>
+                <p id="resultContainer">
+                    <span>{{ response.query.amount }}</span>
+                    <span>&nbsp;</span>
+                    <span>{{ response.query.from }}</span>
+                    <span> = </span>
+                    <span>{{ response.result }}</span>
+                    <span>&nbsp;</span>
+                    <span id="to">{{ response.query.to }}</span>
+                </p>
+
+                <p class="subtitle">Fees</p>
+                <p>{{ feeAmount.toFixed(5) }} {{ response.query.to }} ({{ this.feePercent }}%)</p>
+
+                <p class="subtitle">Total received</p>
+                <p id="total">{{ (response.result - feeAmount).toFixed(5) }} {{ response.query.to }}</p>
+            </div>
+
+			<button mat-raised-button color="primary" (click)="convert()">
+				Convert
+			</button>
+
+		</mat-card-content>
+
+	</mat-card>
+</div>

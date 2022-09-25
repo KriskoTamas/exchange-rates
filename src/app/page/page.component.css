@@ -1,0 +1,63 @@
+.page-container {
+    /*width: 900px;*/
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.section {
+    text-align: left;
+}
+
+.subtitle{
+    margin: 0;
+    padding: 0 0 0.25rem 0;
+    font-weight: bold;
+}
+
+.form-control {
+    width: 280px;
+}
+
+mat-card {
+    padding: 2rem 1rem 2rem 1rem;
+}
+
+mat-card-title {
+    margin-bottom: 2rem;
+}
+
+mat-card-content {
+    text-align: center;
+}
+
+.mat-option {
+    line-height: unset;
+    height: unset;
+    padding: 1rem;
+}
+
+.mat-option-line {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin: 0;
+}
+
+#total {
+    /* font-weight: bold; */
+    font-size: 22px;
+    color: green;
+}
+
+#table-exchange {
+    border-collapse: collapse;
+}
+#table-exchange td button {
+    margin-bottom: 1.34375em
+}
+#table-exchange td {
+    padding: 0;
+}
